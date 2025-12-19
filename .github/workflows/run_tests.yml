@@ -43,4 +43,8 @@ jobs:
       with:
         name: test-results
         path: test-results/ # Playwright по дефолту кладет сюда скриншоты падений
+<<<<<<< HEAD
         retention-days: 7
+=======
+        retention-days: 7
+>>>>>>> 43651e2136e668400a40cb59b0230afad7c8295b
