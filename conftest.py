@@ -21,3 +21,16 @@ def page_fixture(pytestconfig):
 @pytest.fixture(scope="function")
 def login_page(page_fixture):
     return LoginPage(page_fixture)
+
+from pages.inventory_page import InventoryPage
+
+@pytest.fixture(scope="function")
+def inventory_page(page_fixture):
+    return InventoryPage(page_fixture)
+
+@pytest.fixture(autouse=True)
+def screenshot_on_failure(request, page_fixture):
+    yield
+    # Если тест упал — делаем скриншот
+    if request.node.rep_call.failed:
+        page_fixture.screenshot(path=f"screenshots/{request.node.name}.png")
