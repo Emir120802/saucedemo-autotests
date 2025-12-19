@@ -34,3 +34,19 @@ def screenshot_on_failure(request, page_fixture):
     # Если тест упал — делаем скриншот
     if request.node.rep_call.failed:
         page_fixture.screenshot(path=f"screenshots/{request.node.name}.png")
+         
+import pytest
+import os
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    # Этот хук помогает определить, упал тест или нет
+    outcome = yield
+    rep = outcome.get_result()
+    if rep.when == 'call' and rep.failed:
+        # Проверяем, есть ли фикстура 'page_fixture' в тесте
+        page = item.funcargs.get('page_fixture')
+        if page:
+            if not os.path.exists("screenshots"):
+                os.makedirs("screenshots")
+            page.screenshot(path=f"screenshots/{item.name}.png")         
