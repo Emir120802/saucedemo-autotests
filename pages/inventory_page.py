@@ -14,3 +14,9 @@ class InventoryPage(BasePage):
 
     def go_to_cart(self):
         self.page.click(self.CART_LINK)
+
+    def add_item_to_cart_by_name(self, item_name):
+        # Превращаем "Sauce Labs Backpack" в "sauce-labs-backpack"
+        selector_name = item_name.lower().replace(" ", "-")
+        selector = f"#add-to-cart-{selector_name}"
+        self.page.click(selector)
