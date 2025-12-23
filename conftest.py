@@ -2,7 +2,7 @@ import pytest
 from playwright.sync_api import sync_playwright
 from pages.login_page import LoginPage
 
-# опцию запуска через консоль
+# опция запуска через консоль
 def pytest_addoption(parser):
     parser.addoption("--headless", action="store_true", default=False, help="Run browser in headless mode")
 
@@ -11,7 +11,7 @@ def page_fixture(pytestconfig):
     headless_mode = pytestconfig.getoption("--headless") 
     
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=headless_mode)
+        browser = p.chromium.launch(headless=headless_mode) 
         context = browser.new_context()
         page = context.new_page()
         yield page
@@ -48,4 +48,8 @@ def pytest_runtest_makereport(item, call):
         if page:
             if not os.path.exists("screenshots"):
                 os.makedirs("screenshots")
-            page.screenshot(path=f"screenshots/{item.name}.png")         
+            page.screenshot(path=f"screenshots/{item.name}.png")
+            
+        
+
+           

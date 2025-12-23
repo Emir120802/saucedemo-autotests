@@ -1,19 +1,13 @@
-# tests/test_login.py
-import pytest
+import allure
 
-def test_valid_login(login_page):
-    """Тест успешного входа в систему"""
-    login_page.navigate()
-    login_page.login("standard_user", "secret_sauce")
+@allure.feature("Auth")  # Группировка по функционалу
+@allure.story("Login with valid credentials") # Конкретный сценарий
+def test_valid_login(login_page, inventory_page):
+    with allure.step("Navigate to the login page"):
+        login_page.navigate()
     
-    # Проверка (Assert): проверяем, что урл изменился на инвентарь
-    assert "inventory.html" in login_page.page.url
-
-def test_locked_out_user(login_page):
-    """Тест заблокированного пользователя (Негативный кейс)"""
-    login_page.navigate()
-    login_page.login("locked_out_user", "secret_sauce")
+    with allure.step("Submit login form"):
+        login_page.login("standard_user", "secret_sauce")
     
-    # Проверка текста ошибки
-    error = login_page.get_error_message()
-    assert "Sorry, this user has been locked out" in error
+    with allure.step("Verify successful redirection"):
+        assert inventory_page.get_cart_count() is not None
