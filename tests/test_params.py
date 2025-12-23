@@ -1,5 +1,5 @@
+import allure
 import pytest
-
 @pytest.mark.parametrize("item_name", [
     "Sauce Labs Backpack",
     "Sauce Labs Bike Light",

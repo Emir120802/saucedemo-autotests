@@ -1,3 +1,5 @@
+import allure
+import pytest
 def test_add_item_to_cart(login_page, inventory_page):
     # Логин
     login_page.navigate()

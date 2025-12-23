@@ -1,5 +1,5 @@
 import allure
-
+import pytest
 @allure.feature("Auth")  # Группировка по функционалу
 @allure.story("Login with valid credentials") # Конкретный сценарий
 def test_valid_login(login_page, inventory_page):
