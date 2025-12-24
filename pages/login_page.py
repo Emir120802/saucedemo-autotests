@@ -1,4 +1,3 @@
-# pages/login_page.py
 from pages.base_page import BasePage
 
 class LoginPage(BasePage):
@@ -20,3 +19,6 @@ class LoginPage(BasePage):
 
     def get_error_message(self):
         return self.page.inner_text(self.ERROR_MSG)
+    
+       
+    
