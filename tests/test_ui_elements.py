@@ -11,7 +11,7 @@ def test_sorting_az(login_page, inventory_page):
     with allure.step("Verify default sorting is A-Z"):
         # Проверяем, что первый товар — это Backpack
         first_item = inventory_page.page.locator(".inventory_item_name").first
-        assert first_item.inner_text() == "Sauce Labs Backpack"
+        assert first_item.inner_text() == "Wrong Item"
 
 @allure.feature("UI Elements")
 @allure.story("Logout functionality")
