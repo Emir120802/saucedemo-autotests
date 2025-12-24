@@ -4,7 +4,7 @@ from pages.login_page import LoginPage
 
 # опция запуска через консоль
 def pytest_addoption(parser):
-    parser.addoption("--headless", action="store_true", default=False, help="Run browser in headless mode")
+    parser.addoption("--headless", action="store_true", default=True, help="Run browser in headless mode")
 
 @pytest.fixture(scope="function")
 def page_fixture(pytestconfig):
@@ -49,7 +49,6 @@ def pytest_runtest_makereport(item, call):
             if not os.path.exists("screenshots"):
                 os.makedirs("screenshots")
             page.screenshot(path=f"screenshots/{item.name}.png")
-            
         
 
            
