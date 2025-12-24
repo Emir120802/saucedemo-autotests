@@ -18,7 +18,11 @@ class InventoryPage(BasePage):
         self.page.click(self.CART_LINK)
 
     def add_item_to_cart_by_name(self, item_name):
-        # Очищаем имя от лишних знаков и заменяем пробелы на тире
-        selector_name = item_name.lower().replace(" ", "-")
-        selector = f"[id^='add-to-cart-{selector_name}']" # Используем поиск по началу ID
+        # Превращаем название в формат id кнопки
+        # Sauce Labs Bolt T-Shirt -> sauce-labs-bolt-t-shirt
+        clean_name = item_name.lower().replace(" ", "-")
+        selector = f"button[id='add-to-cart-{clean_name}']"
+        
+        # Дождемся, чтобы кнопка точно была кликабельной
+        self.page.wait_for_selector(selector)
         self.page.click(selector)
