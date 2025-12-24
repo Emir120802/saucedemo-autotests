@@ -1,17 +1,20 @@
 import pytest
+import allure
 from playwright.sync_api import sync_playwright
 from pages.login_page import LoginPage
+from pages.inventory_page import InventoryPage
 
-# опция запуска через консоль
 def pytest_addoption(parser):
-    parser.addoption("--headless", action="store_true", default=True, help="Run browser in headless mode")
+    parser.addoption("--headless", action="store", default=True, help="Run browser in headless mode")
 
 @pytest.fixture(scope="function")
 def page_fixture(pytestconfig):
-    headless_mode = pytestconfig.getoption("--headless") 
+    headless_mode = pytestconfig.getoption("--headless")
+    if isinstance(headless_mode, str):
+        headless_mode = headless_mode.lower() == "true"
     
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=headless_mode) 
+        browser = p.chromium.launch(headless=headless_mode)
         context = browser.new_context()
         page = context.new_page()
         yield page
@@ -21,34 +24,26 @@ def page_fixture(pytestconfig):
 def login_page(page_fixture):
     return LoginPage(page_fixture)
 
-from pages.inventory_page import InventoryPage
-
 @pytest.fixture(scope="function")
 def inventory_page(page_fixture):
     return InventoryPage(page_fixture)
 
-@pytest.fixture(autouse=True)
-def screenshot_on_failure(request, page_fixture):
-    yield
-    # Если тест упал — делаем скриншот
-    if request.node.rep_call.failed:
-        page_fixture.screenshot(path=f"screenshots/{request.node.name}.png")
-         
-import pytest
-import os
-
+# Хук для снятия скриншота при падении теста
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
-    # Этот хук помогает определить, упал тест или нет
     outcome = yield
     rep = outcome.get_result()
+    
+    # Проверяем, что это этап выполнения теста ('call') и он завершился неудачей
     if rep.when == 'call' and rep.failed:
-        # Проверяем, есть ли фикстура 'page_fixture' в тесте
         page = item.funcargs.get('page_fixture')
         if page:
-            if not os.path.exists("screenshots"):
-                os.makedirs("screenshots")
-            page.screenshot(path=f"screenshots/{item.name}.png")
-        
+            # Делаем скриншот и прикрепляем его к отчету Allure
+            screenshot = page.screenshot(full_page=True)
+            allure.attach(
+                screenshot,
+                name=f"failure_{item.name}",
+                attachment_type=allure.attachment_type.PNG
+            )
 
            
