@@ -1,6 +1,5 @@
 image: mcr.microsoft.com/playwright/python:v1.40.0-jammy
 
-# Стейджи: сначала тест, потом публикация отчета
 stages:
   - test
   - deploy
@@ -16,16 +15,18 @@ run_tests:
     paths:
       - allure-results/
     expire_in: 1 day
-  allow_failure: true  # Чтобы отчет создался даже если тест упал
+  allow_failure: true
 
 pages:
   stage: deploy
   script:
-    # Устанавливаем allure-commandline для сборки отчета
+    # 1. Устанавливаем Java (необходима для работы Allure)
+    - apt-get update && apt-get install -y openjdk-17-jre-headless
+    # 2. Скачиваем и устанавливаем Allure
     - curl -o allure-2.24.0.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
     - tar -zxvf allure-2.24.0.tgz -C /opt/
     - ln -s /opt/allure-2.24.0/bin/allure /usr/bin/allure
-    # Генерируем отчет из результатов в папку public
+    # 3. Генерируем отчет
     - allure generate allure-results -o public --clean
   artifacts:
     paths:
