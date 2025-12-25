@@ -1,15 +1,34 @@
 image: mcr.microsoft.com/playwright/python:v1.40.0-jammy
 
-variables:
-  # Это ускорит установку
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+# Стейджи: сначала тест, потом публикация отчета
+stages:
+  - test
+  - deploy
 
-test:
+run_tests:
+  stage: test
   script:
     - pip install -r requirements.txt
     - playwright install chromium
-    - pytest
+    - pytest --alluredir=allure-results
   artifacts:
     when: always
     paths:
       - allure-results/
+    expire_in: 1 day
+  allow_failure: true  # Чтобы отчет создался даже если тест упал
+
+pages:
+  stage: deploy
+  script:
+    # Устанавливаем allure-commandline для сборки отчета
+    - curl -o allure-2.24.0.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
+    - tar -zxvf allure-2.24.0.tgz -C /opt/
+    - ln -s /opt/allure-2.24.0/bin/allure /usr/bin/allure
+    # Генерируем отчет из результатов в папку public
+    - allure generate allure-results -o public --clean
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
