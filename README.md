@@ -26,31 +26,9 @@
    ```bash
    git clone [https://github.com/Emir120802/saucedemo-autotests.git](https://github.com/Emir120802/saucedemo-autotests.git)
 Установить зависимости:
-
-Bash
-
 pip install -r requirements.txt
 Установить браузеры Playwright:
-
-Bash
-
 playwright install
 Запустить тесты:
-
-Bash
-
 pytest --alluredir=allure-results
 
----
-
-### Шаг 2: Отправьте изменения в GitHub
-
-Используй терминал:
-
-1.  **Сохрани файл** (`Ctrl + S`).
-2.  **Выполни команды**:
-    ```bash
-    git add README.md
-    git commit -m "Docs: update README with project description and status badge"
-    git push origin main
-    ```
