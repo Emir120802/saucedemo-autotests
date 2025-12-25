@@ -1,0 +1,8 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","1254","test_logout","tests","Thu Dec 25 05:11:34 UTC 2025","passed","Thu Dec 25 05:11:36 UTC 2025","","test_ui_elements","",""
+"","378","test_multiple_items_addition[Sauce Labs Bolt T-Shirt]","tests","Thu Dec 25 05:11:33 UTC 2025","passed","Thu Dec 25 05:11:33 UTC 2025","","test_params","",""
+"","2292","test_valid_login","tests","Thu Dec 25 05:11:29 UTC 2025","passed","Thu Dec 25 05:11:31 UTC 2025","","test_login","",""
+"","462","test_add_item_to_cart","tests","Thu Dec 25 05:11:28 UTC 2025","passed","Thu Dec 25 05:11:28 UTC 2025","","test_cart","",""
+"","363","test_multiple_items_addition[Sauce Labs Bike Light]","tests","Thu Dec 25 05:11:32 UTC 2025","passed","Thu Dec 25 05:11:32 UTC 2025","","test_params","",""
+"","338","test_multiple_items_addition[Sauce Labs Backpack]","tests","Thu Dec 25 05:11:31 UTC 2025","passed","Thu Dec 25 05:11:32 UTC 2025","","test_params","",""
+"","301","test_sorting_az","tests","Thu Dec 25 05:11:34 UTC 2025","passed","Thu Dec 25 05:11:34 UTC 2025","","test_ui_elements","",""
